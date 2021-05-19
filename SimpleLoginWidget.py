@@ -45,11 +45,11 @@ class Excel:
     Write the updated db to the excel file.
     """
     def register_user(self, username, password):
-        self.db = self.db.append(
-            DataFrame([[username, password]], columns=[self.USERNAME_COL, self.PASSWORD_COL]),
-            ignore_index=True
-        )
-        self.db.to_excel(self.filepath)
+        row = { self.USERNAME_COL: username, self.PASSWORD_COL: password }
+        # ignore_index=True allows the use of a dict instead of DataFrame
+        self.db = self.db.append(row, ignore_index=True)
+        # index=False removes the unnecessary Unnamed column that pandas adds by default.
+        self.db.to_excel(self.filepath, index=False)
 
 
 class Application:
